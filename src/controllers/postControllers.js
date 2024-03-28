@@ -80,7 +80,7 @@ export const getPostsByTitleController = async (req, res) => {
 
     const result = await client.query(query, [searchTerm]);
 
-    if (result.rows.length > 0) {
+    if (result?.rows?.length > 0) {
       res.status(200).json(result.rows);
     } else {
       res

@@ -9,7 +9,7 @@ export const userBynameController = async (req, res) => {
     const result = await client.query(query, [name]);
     client.release();
 
-    if (result.rows.length > 0) {
+    if (result?.rows?.length > 0) {
       res.status(200).json(result.rows[0]);
     } else {
       res.status(404).json({ message: "User not found" });
@@ -33,7 +33,7 @@ export const userByidController = async (req, res) => {
     const result = await client.query(query, [id]);
     client.release();
 
-    if (result.rows.length > 0) {
+    if (result?.rows?.length > 0) {
       res.status(200).json(result.rows[0]);
     } else {
       res.status(404).json({ message: "User not found" });
