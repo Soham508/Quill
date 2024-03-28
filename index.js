@@ -1,10 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import connectDB from "./db/db.js";
-import authRoutes from "./routes/authRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-import postRoutes from "./routes/postRoutes.js";
+import connectDB from "./src/db/db.js";
+import authRoutes from "./src/routes/authRoutes.js";
+import userRoutes from "./src/routes/userRoutes.js";
+import postRoutes from "./src/routes/postRoutes.js";
 
 dotenv.config();
 
@@ -36,3 +36,5 @@ const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server Running on ${PORT} mode on port ${PORT}`);
 });
+
+export default app;
