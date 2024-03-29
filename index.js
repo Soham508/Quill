@@ -13,7 +13,7 @@ try {
   console.log("Connected to database");
 } catch (error) {
   console.error("Error connecting to database:", error);
-  process.exit(1); // Terminate the application on connection error
+  process.exit(1);
 }
 
 const app = express();
@@ -31,10 +31,8 @@ app.get("/", (req, res) => {
   res.send("hello");
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
   console.log(`Server Running on ${PORT} mode on port ${PORT}`);
 });
-
-export default app;
