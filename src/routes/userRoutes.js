@@ -3,6 +3,7 @@ import {
   userBynameController,
   userByidController,
 } from "../controllers/userControllers.js";
+import { followByIdController } from "../controllers/followControllers.js";
 
 const router = express.Router();
 
@@ -11,5 +12,7 @@ router.get("/:username", userBynameController);
 
 //For, fetching user by id
 router.get("/id/:id", userByidController);
+
+router.post("/follow", followByIdController);
 
 export default router;

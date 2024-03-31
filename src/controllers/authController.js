@@ -35,6 +35,7 @@ export const registerController = async (req, res) => {
     ];
 
     const result = await client.query(query, values);
+    client.release();
 
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -61,6 +62,7 @@ export const loginController = async (req, res) => {
     const client = await connectDB();
     const query = "SELECT * FROM users WHERE email = $1";
     const user = await client.query(query, [email]);
+    client.release();
 
     if (!user.rows.length > 0) {
       res.status(404).send({
