@@ -37,7 +37,7 @@ export const registerController = async (req, res) => {
     const result = await client.query(query, values);
     client.release();
 
-    res.status(201).json(result.rows[0]);
+    res.status(201).json({...result.rows[0], success: true});
   } catch (err) {
     console.log("error in registration", err);
     res.status(500).send({
