@@ -37,7 +37,7 @@ export const registerController = async (req, res) => {
     const result = await client.query(query, values);
     client.release();
 
-    res.status(201).json({...result.rows[0], success: true});
+    res.status(201).json({ ...result.rows[0], success: true });
   } catch (err) {
     console.log("error in registration", err);
     res.status(500).send({
@@ -90,7 +90,7 @@ export const loginController = async (req, res) => {
     res.status(200).send({
       success: true,
       message: "login successfully",
-      user: user.rows[0],
+      user: { ...user.rows[0], password: "" },
       token,
     });
   } catch (err) {
