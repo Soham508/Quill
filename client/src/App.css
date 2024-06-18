@@ -5,10 +5,11 @@
 
 
 #root {
-  min-width: 1400px;
-  margin: 0 ;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
   min-height: 100%;
-  padding: 2rem;
   text-align: center;
 }
 

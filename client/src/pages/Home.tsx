@@ -1,8 +1,7 @@
 import Layout from "@/components/layout/Layout";
-import { Carousel } from "flowbite-react";
-import carausel from "./../../public/carouse.svg"
+import PostCard from "@/components/PostCard";
 import UsersCard from "@/components/UsersCard";
-import SearchModel from "@/components/SearchModel";
+//import SearchModel from "@/components/SearchModel";
 
 
 
@@ -11,19 +10,18 @@ const Home = () => {
 
     return (
         <Layout>
-            <div className="flex flex-col w-full gap-y-6 mt-4 p-2 h-screen bg-slate-100">
-                <SearchModel />
-                <div className="w-full grid grid-cols-2 h-2/5 gap-4">
-                    <div className="flex justify-center col-span-1 ">
-                        <Carousel slideInterval={5000} className="h-full w-3/4">
-                            <img src={carausel} alt="..." />
-                            <img src={carausel} alt="..." />
-                            <img src={carausel} alt="..." />
-                            <img src={carausel} alt="..." />
-                            <img src={carausel} alt="..." />
-                        </Carousel>
+            <div className="flex flex-col w-full gap-y-6 mt-4 p-2 drop-shadow-lg rounded-xl mb-4 h-full bg-slate-100">
+
+                <div className="h-full grid grid-cols-6 w-full gap-4">
+
+                    <div className="h-full bg-zinc-200 overflow-y-scroll flex justify-center col-span-4">
+                        <div className="h-full w-4/5 flex flex-col items-center gap-4 p-2  rounded-lg m-2">
+                            <PostCard />
+                            <PostCard />
+                            <PostCard />
+                        </div>
                     </div>
-                    <div className="bg-zinc-100 flex justify-end mr-10">
+                    <div className="bg-zinc-200 flex col-span-2 justify-center">
                         <UsersCard />
                     </div>
                 </div>

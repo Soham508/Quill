@@ -22,48 +22,30 @@ const Header = () => {
 
     return (
         <>
-            <div className="w-full h-auto flex flex-row justify-between -mt-6 p-2 bg-zinc-100 rounded-lg pr-4">
+            <div className="w-full h-auto flex flex-row justify-between p-4 bg-zinc-100 rounded-xl pr-4">
                 <div className="flex md:flex-row items-center gap-6">
                     <img src={logo} className="h-12 w-20 rounded-lg" alt="URL not found" />
                     <h1 className="font-bold text-3xl font-serif bg-gradient-to-r from-black to-zinc-500 bg-clip-text text-transparent"> Quill </h1>
                 </div>
                 <div className="flex max-md:bg-red-200 self-center flex-row items-center gap-10">
-                    <div className="p-2 pl-4 pr-4 bg-zinc-800 rounded-lg text-slate-100 border hover:border-zinc-700 hover:bg-zinc-700 hover:font-[500] cursor-pointer">
-                        <Link to={"/"}>
-                            Home
-                        </Link>
-                    </div>
-                    <div className="p-2 pl-4 pr-4 bg-zinc-800 rounded-lg text-slate-100 border hover:border-zinc-700 hover:bg-zinc-700 hover:font-[500] cursor-pointer">
-                        <Link to={"/"}>
-                            Latest
-                        </Link>
-                    </div>
-                    <div className="p-2 pl-4 pr-4 bg-zinc-800 rounded-lg text-slate-100 border hover:border-zinc-700 hover:bg-zinc-700 hover:font-[500] cursor-pointer">
-                        <Link to={"/"}>
-                            About us
-                        </Link>
-                    </div>
-                    <div className="p-2 pl-4 pr-4 bg-zinc-800 rounded-lg text-slate-100 border hover:border-zinc-700 hover:bg-zinc-700 hover:font-[500] cursor-pointer">
-                        <Link to={"/"}>
-                            Contact
-                        </Link>
-                    </div>
+                    <Link to='/user/create-post'>
+                        <Tooltip className="font-normal" content="Click here to write and publish your article " placement="bottom" animation="duration-1000" arrow={false} style="dark">
+                            <Button color="dark" className="flex items-center" size='md'>
+                                <IoCreateOutline className="self-center mr-1" size={18} />
+                                Create a post
+                            </Button>
+                        </Tooltip>
+                    </Link>
+
                 </div>
-                <div className="flex items-center gap-10" >
+
+                <div className="flex items-center gap-10 mr-8" >
 
                     {
                         auth.user ?
                             <>
-                                <Link to='/user/create-post'>
-                                    <Tooltip className="font-normal" content="Click here to write and publish your article " placement="bottom" animation="duration-1000" arrow={false} style="dark">
-                                        <Button color="dark" className="flex items-center" size='md'>
-                                            <IoCreateOutline className="self-center mr-1" size={18} />
-                                            Create a post
-                                        </Button>
-                                    </Tooltip>
-                                </Link>
                                 <Dropdown
-                                    className="w-36"
+                                    className="w-36 rounded-xl drop-shadow-xl p-2 outline-3  outline-double outline-zinc-300 ring-slate-200"
                                     arrowIcon={false}
                                     inline
                                     label={
@@ -74,9 +56,9 @@ const Header = () => {
                                         <span className="block text-sm">{auth?.user?.full_name}</span>
                                         <span className="block truncate text-sm font-medium">{auth?.user?.username}</span>
                                     </Dropdown.Header>
-                                    <Dropdown.Item onClick={() => { navigate('/user/profile') }}>  Profile </Dropdown.Item>
-                                    <Dropdown.Item>Dashboard</Dropdown.Item>
-                                    <Dropdown.Item>Settings</Dropdown.Item>
+                                    <Dropdown.Item className="hover:bg-zinc-200 rounded-xl" onClick={() => { navigate('/user/profile') }}>  Profile </Dropdown.Item>
+                                    <Dropdown.Item className="hover:bg-zinc-200 rounded-xl">Dashboard</Dropdown.Item>
+                                    <Dropdown.Item className="hover:bg-zinc-200 rounded-xl">Settings</Dropdown.Item>
                                     <Dropdown.Divider />
                                     <Dropdown.Item className="hover:bg-white">
                                         <Button color="failure" pill className="flex items-center" onClick={logOut}>
