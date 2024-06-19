@@ -2,6 +2,7 @@ import express from "express";
 import {
   userBynameController,
   userByidController,
+  userUpdateController,
 } from "../controllers/userControllers.js";
 import { followByIdController } from "../controllers/followControllers.js";
 
@@ -14,5 +15,7 @@ router.get("/:username", userBynameController);
 router.get("/id/:id", userByidController);
 
 router.post("/follow", followByIdController);
+
+router.post("/update-profile", userUpdateController);
 
 export default router;

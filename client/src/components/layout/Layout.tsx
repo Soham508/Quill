@@ -1,6 +1,5 @@
 import React from 'react';
 import Header from './Header';
-import Footer from './Footer';
 import { GoHome, GoSearch } from 'react-icons/go';
 import { BiMessageSquareDots } from 'react-icons/bi';
 import { IoNotificationsOutline } from 'react-icons/io5';
@@ -12,7 +11,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <div className='h-full w-full flex justify-center bg-slate-200'>
                 <div className='h-full w-[90%] flex flex-col'>
                     <Header />
-                    <div className='h-screen w-full flex flex-row gap-2 mb-6'>
+                    <div className='h-screen w-full z-0 flex flex-row gap-2 mb-6'>
                         <div className='h-full w-1/5  flex justify-center mt-4 p-2 drop-shadow-lg rounded-xl mb-4  bg-slate-100'>
                             <div className='h-screen w-full bg-zinc-100 p-2 gap-2 rounded-lg flex flex-col justify-start items-center'>
                                 <div className='w-full h-14 p-2 flex flex-row gap-4 justify-start items-center rounded-lg hover:bg-zinc-200 cursor-pointer bg-slate-100'>
@@ -38,7 +37,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                         </div>
                     </div>
 
-                    <Footer />
                 </div>
             </div>
         </>

@@ -11,14 +11,25 @@ export const followByIdController = async (req, res) => {
          INSERT INTO followers (follower_id, followed_id)
         VALUES ($1, $2);
     `;
-    const result = await client.query(query, [follower_id, followee_id]);
-    client.release();
+    try {
+      const result = await client.query(query, [follower_id, followee_id]);
+      client.release();
 
-    res.send({
-      success: true,
-      message: "Followed!",
-      result: result || "",
-    });
+      res.send({
+        success: true,
+        message: "Followed!",
+        result: result || "",
+        duplicate: false,
+      });
+    } catch (err) {
+      if (err.code == "23503") {
+        res.send({
+          success: false,
+          message: "Already followed",
+          duplicate: true,
+        });
+      }
+    }
   } catch (err) {
     res.send({
       success: false,

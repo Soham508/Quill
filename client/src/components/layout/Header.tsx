@@ -22,11 +22,12 @@ const Header = () => {
 
     return (
         <>
-            <div className="w-full h-auto flex flex-row justify-between p-4 bg-zinc-100 rounded-xl pr-4">
+            <div className="w-full h-auto flex flex-row z-10 justify-between p-4 mt-2 drop-shadow-xl bg-zinc-100 rounded-xl pr-4">
                 <div className="flex md:flex-row items-center gap-6">
                     <img src={logo} className="h-12 w-20 rounded-lg" alt="URL not found" />
                     <h1 className="font-bold text-3xl font-serif bg-gradient-to-r from-black to-zinc-500 bg-clip-text text-transparent"> Quill </h1>
                 </div>
+
                 <div className="flex max-md:bg-red-200 self-center flex-row items-center gap-10">
                     <Link to='/user/create-post'>
                         <Tooltip className="font-normal" content="Click here to write and publish your article " placement="bottom" animation="duration-1000" arrow={false} style="dark">
@@ -45,7 +46,7 @@ const Header = () => {
                         auth.user ?
                             <>
                                 <Dropdown
-                                    className="w-36 rounded-xl drop-shadow-xl p-2 outline-3  outline-double outline-zinc-300 ring-slate-200"
+                                    className="w-36 rounded-xl drop-shadow-xl p-2 outline-3 outline-double outline-zinc-300 ring-slate-200"
                                     arrowIcon={false}
                                     inline
                                     label={
@@ -66,6 +67,7 @@ const Header = () => {
                                         </Button>
                                     </Dropdown.Item>
                                 </Dropdown>
+
                             </>
                             :
                             <div className="flex flex-row gap-2 mr-10 items-center">
