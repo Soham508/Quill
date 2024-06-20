@@ -31,12 +31,10 @@ export const createPostController = async (req, res) => {
     let { title, content, author_id, thumbnail, categories } = req.body;
 
     if (!title || !content || !author_id) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          error: "Title, content, and author_id are required",
-        });
+      return res.status(400).json({
+        success: false,
+        error: "Title, content, and author_id are required",
+      });
     }
     if (categories == null) {
       categories = [];
@@ -52,11 +50,7 @@ export const createPostController = async (req, res) => {
     let values;
     const slug = slugify(title, { lower: true, strict: true });
 
-    if (published) {
-      values = [title, content, author_id, thumbnail, slug, categories];
-    } else {
-      values = [title, content, author_id, thumbnail, slug, categories];
-    }
+    values = [title, content, author_id, thumbnail, slug, categories];
 
     const result = await client.query(query, values);
     client.release();
