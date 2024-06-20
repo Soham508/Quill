@@ -23,7 +23,6 @@ async function connectDB() {
     return client;
   } catch (err) {
     console.error("Error connecting to PostgreSQL database:", err);
-    throw err; // Rethrow the error to be handled by the caller
   }
 }
 

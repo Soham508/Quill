@@ -4,7 +4,10 @@ import {
   userByidController,
   userUpdateController,
 } from "../controllers/userControllers.js";
-import { followByIdController } from "../controllers/followControllers.js";
+import {
+  followByIdController,
+  getFollowingsController,
+} from "../controllers/followControllers.js";
 
 const router = express.Router();
 
@@ -15,6 +18,8 @@ router.get("/:username", userBynameController);
 router.get("/id/:id", userByidController);
 
 router.post("/follow", followByIdController);
+
+router.get("/followings/:userId", getFollowingsController);
 
 router.post("/update-profile", userUpdateController);
 
