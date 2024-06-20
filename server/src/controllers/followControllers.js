@@ -26,7 +26,9 @@ export const getFollowingsController = async (req, res) => {
         following: sanitizedUsers,
       });
     } else {
-      res.status(404).json({ success: false, message: "User not found" });
+      res
+        .status(404)
+        .json({ success: success, message: "Not following anyone" });
     }
   } catch (err) {
     console.log(err);

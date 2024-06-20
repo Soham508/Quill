@@ -28,13 +28,15 @@ export const getPostByAuthorIdController = async (req, res) => {
 export const createPostController = async (req, res) => {
   try {
     // Destructure required and optional fields from request body
-    let { title, content, author_id, thumbnail, published, categories } =
-      req.body;
+    let { title, content, author_id, thumbnail, categories } = req.body;
 
     if (!title || !content || !author_id) {
       return res
         .status(400)
-        .json({ error: "Title, content, and author_id are required" });
+        .json({
+          success: false,
+          error: "Title, content, and author_id are required",
+        });
     }
     if (categories == null) {
       categories = [];
@@ -43,33 +45,17 @@ export const createPostController = async (req, res) => {
     // Inserting new post into the database
     const client = await connectDB();
     const query = `
-        INSERT INTO posts (title, content, author_id, thumbnail, published, slug, categories)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO posts (title, content, author_id, thumbnail, slug, categories)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING *
       `;
     let values;
     const slug = slugify(title, { lower: true, strict: true });
 
     if (published) {
-      values = [
-        title,
-        content,
-        author_id,
-        thumbnail,
-        published,
-        slug,
-        categories,
-      ];
+      values = [title, content, author_id, thumbnail, slug, categories];
     } else {
-      values = [
-        title,
-        content,
-        author_id,
-        thumbnail,
-        (published = false),
-        slug,
-        categories,
-      ];
+      values = [title, content, author_id, thumbnail, slug, categories];
     }
 
     const result = await client.query(query, values);
