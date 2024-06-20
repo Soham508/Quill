@@ -1,6 +1,41 @@
 import connectDB from "../db/db.js";
 import slugify from "slugify";
 
+export const getUserFeed = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const client = await connectDB();
+
+    const query = `
+      SELECT p.*
+      FROM posts p
+      JOIN followers f ON p.author_id = f.followed_id
+      WHERE f.follower_id = $1
+      ORDER BY p.created_at DESC;
+    `;
+    const values = [id];
+
+    const result = await client.query(query, values);
+    client.release();
+
+    if (result.rowCount > 0) {
+      res.status(200).json({
+        success: true,
+        posts: result.rows,
+      });
+    } else {
+      res.status(404).json({ success: false, message: "No posts found" });
+    }
+  } catch (err) {
+    console.error("Error fetching user feed:", err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch user feed",
+      error: err,
+    });
+  }
+};
+
 export const getPostByAuthorIdController = async (req, res) => {
   try {
     const client = await connectDB();

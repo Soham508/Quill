@@ -54,8 +54,9 @@ export default function PrivateRoute() {
 
     return ok ? <Outlet /> :
         <>
-            <div className="flex items-center justify-center">
-                <Spinner aria-label="Extra large spinner example Center-aligned" className="self-center" size="xl" />
+            <div className="flex flex-col gap-4 items-center justify-center ">
+                <Spinner aria-label="Extra large spinner example Center-aligned" className="h-24 w-24 mt-40" size="" />
+                <span className="text-[40px] text-cyan-600 font-semibold">Loading...</span>
             </div>
             <Toaster />
         </>;

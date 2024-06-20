@@ -30,7 +30,7 @@ const Profile = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.post("http://localhost:8000/api/v1/user/update-profile", {
+            const res = await axios.post("https://blog-vista-psi.vercel.app/api/v1/user/update-profile", {
                 username: user.username,
                 full_name: user.full_name,
                 email: user.email,
@@ -76,7 +76,7 @@ const Profile = () => {
 
                 if (res) {
                     console.log(res.data);
-                    setUser({ ...user, username: res.data.username, full_name: res.data.full_name, email: res.data.email, bio: res.data.bio })
+                    setUser({ ...user, profile_picture_url: res.data.profile_picture_url, username: res.data.username, full_name: res.data.full_name, email: res.data.email, bio: res.data.bio })
 
                 } else {
                     toast.error("Failed to Fetch user")
@@ -96,9 +96,10 @@ const Profile = () => {
 
     return (
         <Layout>
-            <div className="flex h-full w-full items-center justify-center">
-                <div className="flex flex-col max-h-full gap-4 overflow-y-scroll justify-between w-1/3 p-4 rounded-xl drop-shadow-xl bg-slate-100 mt-10">
+            <div className="flex h-full w-full justify-center">
+                <div className="flex flex-col max-h-full gap-10 overflow-y-scroll w-2/3 p-4 rounded-xl drop-shadow-xl bg-slate-100 mt-4">
                     <div>
+
                         <h1 className="font-bold text-cyan-600 text-3xl"> Profile </h1>
                     </div>
                     <div className="flex flex-col gap-4 ">

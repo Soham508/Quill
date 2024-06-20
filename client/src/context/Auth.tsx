@@ -31,7 +31,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     }
     //eslint-disable-next-line
-  }, [auth.user]);
+  }, []);
   return (
     <AuthContext.Provider value={[auth, setAuth]}>
       {children}

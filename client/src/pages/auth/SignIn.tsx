@@ -36,7 +36,7 @@ const SignIn = () => {
                 localStorage.setItem("auth", JSON.stringify(res.data));
                 toast.success("Successfully Signed in!")
                 setTimeout(() => {
-                    window.location.href = "/";
+                    window.location.href = "/home";
                 }, 1000)
             } else {
                 console.log(res?.data)

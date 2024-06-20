@@ -1,12 +1,12 @@
 //import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import logo from "./../../../public/logo.jpg";
 import user from "./../../../public/user1.jpg"
-import { Link } from "react-router-dom";
+
 import { useNavigate } from "react-router-dom";
-import { Button, Dropdown, Avatar, Tooltip } from "flowbite-react";
+import { Button, Dropdown, Avatar } from "flowbite-react";
 import { useAuth } from "@/context/Auth";
 import toast, { Toaster } from 'react-hot-toast';
-import { IoCreateOutline } from "react-icons/io5";
+
 
 
 const Header = () => {
@@ -28,17 +28,7 @@ const Header = () => {
                     <h1 className="font-bold text-3xl font-serif bg-gradient-to-r from-black to-zinc-500 bg-clip-text text-transparent"> Quill </h1>
                 </div>
 
-                <div className="flex max-md:bg-red-200 self-center flex-row items-center gap-10">
-                    <Link to='/user/create-post'>
-                        <Tooltip className="font-normal" content="Click here to write and publish your article " placement="bottom" animation="duration-1000" arrow={false} style="dark">
-                            <Button color="dark" className="flex items-center" size='md'>
-                                <IoCreateOutline className="self-center mr-1" size={18} />
-                                Create a post
-                            </Button>
-                        </Tooltip>
-                    </Link>
 
-                </div>
 
                 <div className="flex items-center gap-10 mr-8" >
 
@@ -50,7 +40,7 @@ const Header = () => {
                                     arrowIcon={false}
                                     inline
                                     label={
-                                        <Avatar alt="User settings" img={auth.user.profile_picture_url != null ? auth.user.profile_picture_url : user} rounded />
+                                        <Avatar alt="User settings" img={auth.user.profile_picture_url ? auth.user.profile_picture_url : user} rounded />
                                     }
                                 >
                                     <Dropdown.Header>

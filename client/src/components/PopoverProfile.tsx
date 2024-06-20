@@ -1,6 +1,16 @@
 
-const PopoverProfile = ({ user, profile_pic }: { user: { id: number, name: string, username: string }, profile_pic: string }) => {
-
+const PopoverProfile = ({ user }: {
+    user: {
+        user_id: number;
+        username: string;
+        email: string;
+        full_name?: string | null;
+        bio?: string | null;
+        profile_picture_url?: string | null;
+        created_at: string;
+        updated_at: string;
+    }
+}) => {
 
     return (
         <div className="w-64 p-3 flex flex-col">
@@ -8,8 +18,8 @@ const PopoverProfile = ({ user, profile_pic }: { user: { id: number, name: strin
                 <a href="#">
                     <img
                         className="h-10 w-10 rounded-full"
-                        src={profile_pic}
-                        alt={user.name}
+                        src={user.profile_picture_url as string}
+                        alt={user.username}
                     />
                 </a>
                 <div>
@@ -22,7 +32,7 @@ const PopoverProfile = ({ user, profile_pic }: { user: { id: number, name: strin
                 </div>
             </div>
             <p id="profile-popover" className="text-base font-semibold flex justify-start leading-none text-gray-900 dark:text-white">
-                <a href="#">{user.name}</a>
+                <a href="#">{user.full_name}</a>
             </p>
             <p className="mb-3 text-sm font-normal flex self-start">
                 <a href="#" className="hover:underline">
@@ -31,7 +41,7 @@ const PopoverProfile = ({ user, profile_pic }: { user: { id: number, name: strin
             </p>
             <p className="mb-3 text-sm font-normal -ml-2 flex self-start">
                 <a>
-                    Open-source contributor. interesting web applications.
+                    {user.bio}
                 </a>
             </p>
             <ul className="flex text-sm justify-between">
