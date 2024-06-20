@@ -12,5 +12,7 @@
 3] npm run dev
 
 
+Backend is deployed on https://vercel.com/sohams-projects-48ad2eb6/quill/EzhT29F8nWWNedbrg9TQuTcH8hwM
+
 
 
