@@ -3,35 +3,88 @@ import Layout from "@/components/layout/Layout"
 import { useAuth } from "@/context/Auth";
 import { Label, FileInput, Textarea, Button } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { storage } from "./../firebaseConfig";
-import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import toast, { Toaster } from "react-hot-toast"
 import axios from "axios";
+import { storage } from "./../firebaseConfig";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
 
 
 const CreatePost = () => {
 
     const [auth] = useAuth();
-    const [file, setFile] = useState<File>();
+    const [image, setImage] = useState<File | null>(null);
+    const [imageSrc, setImageSrc] = useState<string | null>(null);
     const [post, setPost] = useState<any>({})
 
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length > 0) {
-            setFile(event.target.files[0]);
+    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onload = () => {
+                setImageSrc(reader.result as string);
+            };
+
+            reader.onerror = (error) => {
+                console.error("Error converting image to base64:", error);
+            };
+            setImage(file);
         }
     };
 
+    const uploadImage = async (image: File | null): Promise<string> => {
+        if (!image) throw new Error("No image provided");
+
+        const storageRef = ref(storage, `thumbnails/${Date.now()}_${image.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, image);
+
+        return new Promise<string>((resolve, reject) => {
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log("Upload is " + progress + "% done");
+                },
+                (error) => {
+                    console.error("Firebase Upload Error:", error);
+                    toast.error("Image upload failed");
+                    reject(error);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref)
+                        .then((downloadURL) => {
+                            window.alert(downloadURL);
+                            resolve(downloadURL); // ✅ return URL
+                        })
+                        .catch((err) => {
+                            toast.error("Failed to get download URL");
+                            reject(err);
+                        });
+                }
+            );
+        });
+    };
+
+
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        console.log(post)
-        const thumbnail = await uploadImage(file) || null;
+        console.log(post);
 
         try {
-            const response = await axios.post('https://blog-vista-psi.vercel.app/api/v1/post/createPost', { ...post, thumbnail });
+            let uploadedUrl
+            if (image) {
+                uploadedUrl = await uploadImage(image);
+            }
+
+            const response = await axios.post('http://localhost:8000/api/v1/post/createPost', {
+                ...post,
+                thumbnail: uploadedUrl ? uploadedUrl : null,
+            });
             toast.success('Post created successfully');
             console.log('New Post:', response.data);
-
         } catch (error) {
             toast.error('Failed to create the post');
             console.error('Error creating post:', error);
@@ -40,18 +93,6 @@ const CreatePost = () => {
 
 
 
-    const uploadImage = async (file: any) => {
-        if (!file) return null;
-        const storageRef = ref(storage, `thumbnails/${file.name}`);
-        try {
-            const snapshot = await uploadBytes(storageRef, file);
-            const downloadURL = await getDownloadURL(snapshot.ref);
-            return downloadURL;
-        } catch (error) {
-            console.error('Error uploading image:', error);
-            return null;
-        }
-    };
 
     useEffect(() => {
         setPost({ ...post, author_id: auth.user?.user_id })
@@ -75,6 +116,9 @@ const CreatePost = () => {
                             className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                         >
                             <div className="flex flex-col items-center justify-center pb-6 pt-5">
+                                {imageSrc && (
+                                    <img src={imageSrc} alt="Uploaded preview" className="h-40 object-cover rounded-md mt-2" />
+                                )}
                                 <svg
                                     className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
                                     aria-hidden="true"

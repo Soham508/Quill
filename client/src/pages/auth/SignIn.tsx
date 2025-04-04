@@ -27,16 +27,21 @@ const SignIn = () => {
         e.preventDefault();
         console.log(formData)
         try {
-            const res = await axios.post("https://blog-vista-psi.vercel.app/api/v1/auth/login", {
-                ...formData, email: formData["email"], password: formData["password"]
-            })
+            const res = await axios.post(
+                "http://localhost:8000/api/v1/auth/login",
+                {
+                    ...formData,
+                    email: formData["email"],
+                    password: formData["password"],
+                }
+            );
 
             if (res && res.data.success) {
                 console.log(res.data);
                 localStorage.setItem("auth", JSON.stringify(res.data));
                 toast.success("Successfully Signed in!")
                 setTimeout(() => {
-                    window.location.href = "/home";
+                    window.location.href = "/";
                 }, 1000)
             } else {
                 console.log(res?.data)

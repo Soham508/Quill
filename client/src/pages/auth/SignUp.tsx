@@ -39,7 +39,7 @@ const SignUp = () => {
         } else {
 
             try {
-                const res = await axios.post("https://blog-vista-psi.vercel.app/api/v1/auth/register", {
+                const res = await axios.post("http://localhost:8000/api/v1/auth/register", {
                     ...formData
                 })
 

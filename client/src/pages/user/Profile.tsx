@@ -30,7 +30,7 @@ const Profile = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.post("https://blog-vista-psi.vercel.app/api/v1/user/update-profile", {
+            const res = await axios.post("http://localhost:8000/api/v1/user/update-profile", {
                 username: user.username,
                 full_name: user.full_name,
                 email: user.email,
@@ -72,7 +72,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchuser = async () => {
             try {
-                const res = await axios.get(`https://blog-vista-psi.vercel.app/api/v1/user/id/${auth.user?.user_id}`);
+                const res = await axios.get(`http://localhost:8000/api/v1/user/id/${auth.user?.user_id}`);
 
                 if (res) {
                     console.log(res.data);

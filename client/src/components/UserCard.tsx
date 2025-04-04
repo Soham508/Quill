@@ -4,34 +4,60 @@ import { Button, Card } from "flowbite-react"
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom"
 
-const UserCard = ({ username, id }: { username: string, id: number }) => {
+interface UserCardProps {
+    username: string;
+    id: number;
+    isFollowed: boolean;
+}
+
+const UserCard = ({ username, id, isFollowed }: UserCardProps) => {
     const navigate = useNavigate();
     const [auth] = useAuth();
 
     const handleFollow = async () => {
         try {
-            const res = await axios.post('https://blog-vista-psi.vercel.app/api/v1/user/follow', {
-                follower_id: auth.user?.user_id, followee_id: id
-            })
+            const res = await axios.post("http://localhost:8000/api/v1/user/follow", {
+                follower_id: auth.user?.user_id,
+                followee_id: id,
+            });
             if (res) {
-                console.log(res.data);
-                toast.success(`You're  now following ${username}`)
+                console.log(res.data.success);
+                toast.success(`You're  now following ${username}`);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1200)
             } else {
-                toast.error("Failed to Fetch user")
+                toast.error("Failed to Fetch user");
             }
-
         } catch (err) {
-            toast.error("Something went wrong")
-            console.log(err)
+            toast.error("Something went wrong");
+            console.log(err);
         }
-    }
-
+    };
+    const handleUnFollow = async () => {
+        try {
+            const res = await axios.post("http://localhost:8000/api/v1/user/unfollow", {
+                follower_id: auth.user?.user_id,
+                followee_id: id,
+            });
+            if (res.data.success) {
+                console.log(res.data);
+                toast.success(`You have unfollowed ${username}`);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1200)
+            } else {
+                toast.error("Failed to Fetch user");
+            }
+        } catch (err) {
+            toast.error("Something went wrong");
+            console.log(err);
+        }
+    };
 
     return (
-        <Card className="max-w-sm">
-            <div className="flex justify-end px-4 pt-4">
-
-            </div>
+        <Card className="flex flex-col h-full w-full rounded-lg bg-slate-100 shadow-xl hover:shadow-2xl hover:scale-105 gap-2 items-center justify-between p-4 cursor-pointer transition-all duration-500 ease-in-out">
+            <div className="flex justify-end px-4 pt-4"></div>
             <div className="flex flex-col items-center pb-10">
                 <img
                     alt="Bonnie image"
@@ -40,20 +66,30 @@ const UserCard = ({ username, id }: { username: string, id: number }) => {
                     width="96"
                     className="mb-3 rounded-full shadow-lg"
                 />
-                <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{username}</h5>
-                <span className="text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
+                <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+                    {username}
+                </h5>
                 <div className="mt-4 flex space-x-3 lg:mt-6">
-                    <Button gradientMonochrome="cyan" onClick={handleFollow}>
-                        Follow
-                    </Button>
-                    <Button color="dark" onClick={() => { navigate(`/message/${id}`) }}>
+                    {isFollowed ? (<Button className="bg-gradient-to-r from-red-400 via-red-500 to-red-600 text-white hover:bg-gradient-to-br focus:ring-red-300 dark:focus:ring-red-800" onClick={handleUnFollow}>
+                        Unfollow
+                    </Button>) : (
+                        <Button className="bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 text-white hover:bg-gradient-to-br focus:ring-cyan-300 dark:focus:ring-cyan-800" onClick={handleFollow}>
+                            Follow
+                        </Button>
+                    )}
+
+                    <Button
+                        color="dark"
+                        onClick={() => {
+                            navigate(`/message/${id}`);
+                        }}
+                    >
                         Message
                     </Button>
                 </div>
             </div>
-
-        </Card>
-    )
-}
+        </Card >
+    );
+};
 
 export default UserCard

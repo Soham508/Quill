@@ -64,6 +64,44 @@ export const userBynameController = async (req, res) => {
   }
 };
 
+export const searchUsersController = async (req, res) => {
+  try {
+    const client = await connectDB();
+    const { q, follower_id } = req.query;
+    const searchTerm = `%${q}%`;
+
+    const query = `
+                      SELECT 
+                        u.*, 
+                        CASE 
+                          WHEN f.follower_id IS NOT NULL THEN TRUE 
+                          ELSE FALSE 
+                        END AS is_followed
+                      FROM users u
+                      LEFT JOIN followers f 
+                        ON u.user_id = f.followed_id AND f.follower_id = $2
+                      WHERE LOWER(u.username) LIKE LOWER($1)
+                      ORDER BY u.username ASC
+                      LIMIT 20;
+                    `;
+
+    const result = await client.query(query, [searchTerm, follower_id]);
+    client.release();
+
+    res.status(200).json({
+      success: true,
+      users: result.rows,
+    });
+  } catch (err) {
+    console.log("Search failed:", err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to search users",
+      error: err.message,
+    });
+  }
+};
+
 export const userByidController = async (req, res) => {
   try {
     const client = await connectDB();

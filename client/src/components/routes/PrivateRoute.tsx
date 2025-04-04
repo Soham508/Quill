@@ -21,7 +21,7 @@ export default function PrivateRoute() {
             if (data) {
                 const parseData = JSON.parse(data);
                 const res = await axios.get(
-                    "https://blog-vista-psi.vercel.app/api/v1/auth/user-auth",
+                    "http://localhost:8000/api/v1/auth/user-auth",
                     {
                         headers: {
                             "Authorization": parseData.token

@@ -10,10 +10,9 @@ const firebaseConfig = {
   storageBucket: "quill-a11cf.appspot.com",
   messagingSenderId: "662488601337",
   appId: "1:662488601337:web:e2f3f273801471d27d0828",
-  measurementId: "G-412SDZ9R9H",
+  measurementId: "G-412SDZ9R9H"
 };
 
-// Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const storage = getStorage(app);

@@ -8,13 +8,12 @@ import postRoutes from "./src/routes/postRoutes.js";
 
 dotenv.config();
 
-try {
-  await connectDB();
-  console.log("Connected to database");
-} catch (error) {
-  console.error("Error connecting to database:", error);
-  process.exit(1);
-}
+//try {
+//  await connectDB();
+//  console.log("Connected to database");
+//} catch (error) {
+//  console.error("Error connecting to database:", error);
+//}
 
 const app = express();
 

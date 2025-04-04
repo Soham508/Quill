@@ -77,3 +77,44 @@ export const followByIdController = async (req, res) => {
     });
   }
 };
+
+export const unfollowByIdController = async (req, res) => {
+  try {
+    const { follower_id, followee_id } = req.body;
+
+    const client = await connectDB();
+
+    const query = `
+      DELETE FROM followers 
+      WHERE follower_id = $1 AND followed_id = $2;
+    `;
+
+    try {
+      const result = await client.query(query, [follower_id, followee_id]);
+      client.release();
+
+      if (result.rowCount === 0) {
+        res.send({
+          success: false,
+          message: "You were not following this user.",
+        });
+      } else {
+        res.send({
+          success: true,
+          message: "Unfollowed successfully!",
+        });
+      }
+    } catch (err) {
+      res.send({
+        success: false,
+        message: "Failed to unfollow.",
+        error: err.message,
+      });
+    }
+  } catch (err) {
+    res.send({
+      success: false,
+      message: `Error in unfollowing: ${err.message}`,
+    });
+  }
+};
