@@ -20,3 +20,5 @@ export interface authType {
     user: User | null;
     token: string;
 }
+
+export const BACKEND_URL = "http://localhost:8000" as const;

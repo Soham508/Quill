@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast"
 import { GoSearch } from "react-icons/go"
 import UserCard from "@/components/UserCard"
 import { useAuth } from "./../context/Auth"
+import { BACKEND_URL } from "@/types"
 
 
 
@@ -23,7 +24,7 @@ const Search = () => {
         try {
             setLoading(true);
 
-            const res = await axios.get("http://localhost:8000/api/v1/user/search", {
+            const res = await axios.get(`${BACKEND_URL}/api/v1/user/search`, {
                 params: {
                     q: search,
                     follower_id: auth?.user?.user_id

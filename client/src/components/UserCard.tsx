@@ -1,4 +1,5 @@
 import { useAuth } from "@/context/Auth";
+import { BACKEND_URL } from "@/types";
 import axios from "axios";
 import { Button, Card } from "flowbite-react"
 import toast from "react-hot-toast";
@@ -16,7 +17,7 @@ const UserCard = ({ username, id, isFollowed }: UserCardProps) => {
 
     const handleFollow = async () => {
         try {
-            const res = await axios.post("http://localhost:8000/api/v1/user/follow", {
+            const res = await axios.post(`${BACKEND_URL}/api/v1/user/follow`, {
                 follower_id: auth.user?.user_id,
                 followee_id: id,
             });
@@ -36,7 +37,7 @@ const UserCard = ({ username, id, isFollowed }: UserCardProps) => {
     };
     const handleUnFollow = async () => {
         try {
-            const res = await axios.post("http://localhost:8000/api/v1/user/unfollow", {
+            const res = await axios.post(`${BACKEND_URL}/api/v1/user/unfollow`, {
                 follower_id: auth.user?.user_id,
                 followee_id: id,
             });

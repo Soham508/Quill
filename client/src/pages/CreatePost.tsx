@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast"
 import axios from "axios";
 import { storage } from "./../firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { BACKEND_URL } from "@/types";
 
 
 
@@ -56,7 +57,6 @@ const CreatePost = () => {
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref)
                         .then((downloadURL) => {
-                            window.alert(downloadURL);
                             resolve(downloadURL); // ✅ return URL
                         })
                         .catch((err) => {
@@ -79,7 +79,7 @@ const CreatePost = () => {
                 uploadedUrl = await uploadImage(image);
             }
 
-            const response = await axios.post('http://localhost:8000/api/v1/post/createPost', {
+            const response = await axios.post(`${BACKEND_URL}/api/v1/post/createPost`, {
                 ...post,
                 thumbnail: uploadedUrl ? uploadedUrl : null,
             });

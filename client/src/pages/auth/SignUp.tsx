@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button, TextInput, Label, FileInput, Checkbox, Toast } from "flowbite-react";
-import { registerInput } from '@/types';
+import { BACKEND_URL, registerInput } from '@/types';
 import axios from 'axios';
 import { HiExclamation } from "react-icons/hi";
 import toast, { Toaster } from 'react-hot-toast';
@@ -39,7 +39,7 @@ const SignUp = () => {
         } else {
 
             try {
-                const res = await axios.post("http://localhost:8000/api/v1/auth/register", {
+                const res = await axios.post(`${BACKEND_URL}/api/v1/auth/register`, {
                     ...formData
                 })
 

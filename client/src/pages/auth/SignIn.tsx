@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Button, TextInput, Label } from "flowbite-react";
-import { registerInput } from '@/types';
+import { BACKEND_URL, registerInput } from '@/types';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuth } from '@/context/Auth';
@@ -28,7 +28,7 @@ const SignIn = () => {
         console.log(formData)
         try {
             const res = await axios.post(
-                "http://localhost:8000/api/v1/auth/login",
+                `${BACKEND_URL}/api/v1/auth/login`,
                 {
                     ...formData,
                     email: formData["email"],

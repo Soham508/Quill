@@ -4,8 +4,8 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD15NEt0gikr_TDldtZ-r5ELtpO1LzZznE",
-  authDomain: "quill-a11cf.firebaseapp.com",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
   projectId: "quill-a11cf",
   storageBucket: "quill-a11cf.appspot.com",
   messagingSenderId: "662488601337",

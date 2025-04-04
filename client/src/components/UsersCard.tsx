@@ -6,6 +6,7 @@ import { useAuth } from "@/context/Auth";
 import toast, { Toaster } from "react-hot-toast"
 import axios from "axios";
 import { Button, Tooltip } from "flowbite-react";
+import { BACKEND_URL } from "@/types";
 
 
 const UsersCard = () => {
@@ -27,7 +28,7 @@ const UsersCard = () => {
         const fetchFollowers = async () => {
             try {
                 const userId = auth.user?.user_id || 5
-                const res = await axios.get(`http://localhost:8000/api/v1/user/followings/${userId}`);
+                const res = await axios.get(`${BACKEND_URL}/api/v1/user/followings/${userId}`);
 
                 if (res) {
                     setFollowing(res.data.following)

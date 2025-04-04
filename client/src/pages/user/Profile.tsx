@@ -4,7 +4,7 @@ import { useAuth } from "@/context/Auth";
 import userLogo from "./../../../public/user.jpg"
 import { HiMail } from "react-icons/hi";
 import { useEffect, useState } from "react";
-import { User } from "@/types";
+import { BACKEND_URL, User } from "@/types";
 import toast, { Toaster } from "react-hot-toast"
 import { GrUpdate } from "react-icons/gr";
 import axios from "axios";
@@ -30,7 +30,7 @@ const Profile = () => {
         e.preventDefault();
 
         try {
-            const res = await axios.post("http://localhost:8000/api/v1/user/update-profile", {
+            const res = await axios.post(`${BACKEND_URL}/api/v1/user/update-profile`, {
                 username: user.username,
                 full_name: user.full_name,
                 email: user.email,
@@ -72,7 +72,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchuser = async () => {
             try {
-                const res = await axios.get(`http://localhost:8000/api/v1/user/id/${auth.user?.user_id}`);
+                const res = await axios.get(`${BACKEND_URL}/api/v1/user/id/${auth.user?.user_id}`);
 
                 if (res) {
                     console.log(res.data);

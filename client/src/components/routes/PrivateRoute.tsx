@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "flowbite-react";
 import toast, { Toaster } from 'react-hot-toast';
+import { BACKEND_URL } from "@/types";
 
 
 
@@ -21,7 +22,7 @@ export default function PrivateRoute() {
             if (data) {
                 const parseData = JSON.parse(data);
                 const res = await axios.get(
-                    "http://localhost:8000/api/v1/auth/user-auth",
+                    `${BACKEND_URL}/api/v1/auth/user-auth`,
                     {
                         headers: {
                             "Authorization": parseData.token

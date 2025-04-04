@@ -4,34 +4,45 @@ import slugify from "slugify";
 export const getUserFeed = async (req, res) => {
   try {
     const { id } = req.params;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+
     const client = await connectDB();
 
     const query = `
-      SELECT p.*
-      FROM posts p
-      JOIN followers f ON p.author_id = f.followed_id
-      WHERE f.follower_id = $1
-      ORDER BY p.created_at DESC;
-    `;
-    const values = [id];
+  (SELECT p.*, u.username, u.full_name 
+   FROM posts p
+   JOIN followers f ON p.author_id = f.followed_id
+   JOIN users u ON p.author_id = u.user_id
+   WHERE f.follower_id = $1)
+  
+  UNION
+  
+  (SELECT p.*, u.username, u.full_name
+   FROM posts p
+   JOIN users u ON p.author_id = u.user_id
+   WHERE p.author_id != $1)
+  
+  ORDER BY created_at DESC
+  LIMIT $2 OFFSET $3;
+`;
 
+    const values = [id, limit, offset];
     const result = await client.query(query, values);
     client.release();
 
-    if (result.rowCount > 0) {
-      res.status(200).json({
-        success: true,
-        posts: result.rows,
-      });
-    } else {
-      res.status(404).json({ success: false, message: "No posts found" });
-    }
+    res.status(200).json({
+      success: true,
+      currentPage: page,
+      posts: result.rows,
+    });
   } catch (err) {
     console.error("Error fetching user feed:", err);
     res.status(500).json({
       success: false,
       message: "Failed to fetch user feed",
-      error: err,
+      error: err.message,
     });
   }
 };
