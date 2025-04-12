@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  "scripts": {
-    "dev": "nodemon index.js"
-  },
+ "scripts": {
+  "dev": "nodemon index.js",
+  "clean": "rm -rf dist && mkdir dist", 
+  "build": "npm run clean && cp -r ./* dist/ && rm -rf dist/node_modules", 
+  "start": "node dist/index.js" 
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
