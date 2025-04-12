@@ -63,27 +63,55 @@ const SignIn = () => {
     }, [auth.user, navigate])
 
     return (
-        <div className='h-screen w-full items-center flex justify-center'>
-            <form className='h-full md:h-1/2 md:w-1/4 flex flex-col justify-between p-8 border bg-slate-100 rounded-lg border-slate-300'>
+        <div className="h-screen w-full items-center flex justify-center">
+            <form className="h-full md:h-1/2 md:w-1/4 flex flex-col justify-between p-8 border bg-slate-100 rounded-lg border-slate-300">
+                <div className="flex flex-col gap-6">
+                    <h2 className="font-bold text-3xl text-teal-700"> Login</h2>
 
-                <div className='flex flex-col gap-6'>
-                    <h2 className='font-bold text-3xl text-teal-700'> Login</h2>
-
-                    <div className='flex flex-col gap-2'>
-                        <Label htmlFor="email" className='flex self-start' value="Email" />
-                        <TextInput id="email" name='email' onChange={handleInputChange} type="email" placeholder="Email" required />
+                    <div className="flex flex-col gap-2">
+                        <Label
+                            htmlFor="email"
+                            className="flex self-start"
+                            value="Email"
+                        />
+                        <TextInput
+                            id="email"
+                            name="email"
+                            onChange={handleInputChange}
+                            type="email"
+                            placeholder="Email"
+                            required
+                        />
                     </div>
 
-                    <div className='flex flex-col gap-2'>
-                        <Label htmlFor="password" className='flex self-start' value="Password" />
-                        <TextInput id="password" name='password' onChange={handleInputChange} type="password" placeholder="**********" required />
+                    <div className="flex flex-col gap-2">
+                        <Label
+                            htmlFor="password"
+                            className="flex self-start"
+                            value="Password"
+                        />
+                        <TextInput
+                            id="password"
+                            name="password"
+                            onChange={handleInputChange}
+                            type="password"
+                            placeholder="**********"
+                            required
+                        />
                     </div>
                 </div>
-                <Button className='relative b-0' onClick={handleSubmit} type="submit">Submit</Button>
+                <Button className="relative b-0" onClick={handleSubmit} type="submit">
+                    Submit
+                </Button>
+                <h3 className="text-sm font-semibold">
+                    Don't have an account? <span className='underline cursor-pointer text-blue-800'
+                        onClick={() => { navigate("/register") }}
+                    > Sign up</span>
+                </h3>
             </form>
             <Toaster />
         </div>
-    )
+    );
 }
 
 export default SignIn
