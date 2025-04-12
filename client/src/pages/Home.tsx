@@ -7,11 +7,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast"
 import { HiOutlineArrowDown } from "react-icons/hi";
+import { Mosaic } from "react-loading-indicators";
 
 const Home = () => {
     const [auth] = useAuth();
     const [feed, setFeed] = useState<any[]>([]);
     const [pageId, setPageId] = useState(1);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
 
 
@@ -25,8 +28,11 @@ const Home = () => {
                 return;
             }
             setFeed((prevFeed) => [...prevFeed, ...response.data.posts]);
+            setLoading(false);
         } catch (error) {
             console.error("Error creating post:", error);
+            setLoading(false);
+            setError(true);
         }
     };
 
@@ -36,31 +42,46 @@ const Home = () => {
 
     return (
         <Layout>
-            <div className="flex flex-col w-full items-center gap-y-6 mt-4 mb-4 bg-slate-100 rounded-xl drop-shadow-lg">
-                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 p-4">
-                    {feed?.map((post, index) => (
-                        <PostCard
-                            key={index}
-                            title={post.title}
-                            content={post.content}
-                            image_url={post.thumbnail}
-                            likes={post.likes}
-                            username={post.username}
-                            full_name={post.full_name}
-                        />
-                    ))}
+            {loading && (
+                <div className="flex flex-col w-full items-center justify-center bg-slate-100 rounded-xl drop-shadow-lg">
+
+                    <Mosaic color="#060706" size="medium" text="" textColor="" />
+                    <h1 className="text-2xl font-bold text-gray-900">Loading...</h1>
+
                 </div>
-                <button
-                    onClick={() => {
-                        setPageId((prevPageId) => prevPageId + 1);
-                    }}
-                    color="dark"
-                    className="w-16 h-16 bg-black hover:bg-black/80 rounded-full shadow-xl shadow-slate-800 p-4 hover:scale-105 transition-all duration-500 ease-in-out flex items-center justify-center mb-4"
-                >
-                    <HiOutlineArrowDown className="w-full h-full" color="white" />
-                </button>
-                {pageId}
-            </div>
+            )}
+            {error && (
+                <div className="flex flex-col w-full items-center justify-center bg-slate-100 rounded-xl drop-shadow-lg">
+                    <h1 className="text-2xl font-bold text-red-700">Error loading feed!</h1>
+                </div>
+            )}
+            {!loading && !error && (
+                <div className="flex flex-col w-full items-center gap-y-6 mt-4 mb-4 bg-slate-100 rounded-xl drop-shadow-lg">
+                    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 p-4">
+                        {feed?.map((post, index) => (
+                            <PostCard
+                                key={index}
+                                title={post.title}
+                                content={post.content}
+                                image_url={post.thumbnail}
+                                likes={post.likes}
+                                username={post.username}
+                                full_name={post.full_name}
+                            />
+                        ))}
+                    </div>
+                    <button
+                        onClick={() => {
+                            setPageId((prevPageId) => prevPageId + 1);
+                        }}
+                        color="dark"
+                        className="w-16 h-16 bg-black hover:bg-black/80 rounded-full shadow-xl shadow-slate-800 p-4 hover:scale-105 transition-all duration-500 ease-in-out flex items-center justify-center mb-4"
+                    >
+                        <HiOutlineArrowDown className="w-full h-full" color="white" />
+                    </button>
+                </div>
+            )}
+
             <Toaster />
         </Layout>
     );

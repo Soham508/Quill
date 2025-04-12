@@ -21,4 +21,5 @@ export interface authType {
     token: string;
 }
 
-export const BACKEND_URL = "http://localhost:8000" as const;
+export const BACKEND_URL = "https://quill-server-tan.vercel.app" as const
+//export const BACKEND_URL_DEV = "http://localhost:8000" as const;
